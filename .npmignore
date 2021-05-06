@@ -1,8 +1,5 @@
 # NPM
 node_modules
 
-# Linter
-.eslintrc.json
-
 # Typescript
 tsconfig.json

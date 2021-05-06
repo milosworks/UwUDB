@@ -1,30 +1,24 @@
 {
-	"name": "bobodb",
+	"name": "omegadb",
 	"version": "0.0.1",
 	"description": "Un modulo que te ayudara a dejar esas db que usan JSON y entrar en el uso de SQL",
 	"main": "lib/index.js",
 	"scripts": {
 		"build": "tsc",
-		"test": "node test"
+		"test": "node test/index.js"
 	},
 	"keywords": [
 		"db",
-		"bobodb",
+		"omegaDB",
 		"vyrek",
 		"sql"
 	],
 	"author": "Vyrek",
 	"license": "Apache-2.0",
 	"devDependencies": {
-		"@typescript-eslint/eslint-plugin": "^4.22.1",
-		"@typescript-eslint/parser": "^4.22.1",
-		"eslint": "^7.25.0",
-		"eslint-config-airbnb-base": "^14.2.1",
-		"eslint-plugin-import": "^2.22.1",
-		"typescript": "^4.2.4"
+		"eslint": "^7.25.0"
 	},
 	"dependencies": {
-		"sqlite": "^4.0.21",
-		"sqlite3": "^5.0.2"
+		"better-sqlite3": "^7.3.1"
 	}
 }

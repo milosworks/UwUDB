@@ -1,19 +1,42 @@
 {
 	"env": {
-		"node": true,
-		"es6": true
+		"es6": true,
+		"node": true
 	},
 	"extends": [
-		"airbnb-base",
-		"plugin:@typescript-eslint/recommended"
+		"eslint:recommended"
 	],
-	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"ecmaVersion": 12,
 		"sourceType": "module"
 	},
-	"plugins": [
-		"@typescript-eslint"
-	],
-	"rules": {}
+	"rules": {
+		"no-empty": "off",
+		"prefer-const": "warn",
+		"no-unused-vars": "warn",
+		"quotes": [
+			"warn",
+			"single"
+		],
+		"no-useless-escape": "warn",
+		"eol-last": [
+			"warn",
+			"never"
+		],
+		"comma-dangle": [
+			"warn",
+			"never"
+		],
+		"quote-props": [
+			"warn",
+			"as-needed"
+		],
+		"semi": [
+			"off"
+		]
+	},
+	"ignorePatterns": [
+		"dist",
+		"node_modules"
+	]
 }
