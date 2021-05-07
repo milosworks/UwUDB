@@ -3,14 +3,14 @@ import Sqlite from "better-sqlite3"
 declare interface OpcionesCliente {
     dir: string
     nombre: string
-    WAL: boolean
-    verbose: any
+    WAL?: boolean
+    verbose?: any
 }
 
-declare type DocumentoType<T extends {}> = T & Documento
+declare type DocumentoType<T extends {}> = T & Documento<T>
 
-declare class Documento {
-    constructor(data: obj, db: uwuDB)
+declare class Documento<TEsquema> {
+    constructor(data: object, db: uwuDB<TEsquema>)
 
     eliminar(): Sqlite.RunResult
 }
@@ -73,7 +73,7 @@ declare class uwuCliente {
     /**
      * Todas las dbs creadas en un array
      */
-    public Databases: uwuDB[]
+    public Databases: uwuDB<any>[]
     private db: Sqlite.Database
 
     /**
