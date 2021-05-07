@@ -47,14 +47,14 @@ declare class uwuDB<TEsquema> {
      * Busca un doc con la query propuesta
      * @param query - Busca un doc con las propiedades puestas aqui
      */
-    public buscarUno(query: Partial<TEsquema>): Documento<TEsquema>
+    public buscarUno(query: Partial<TEsquema>): DocumentoType<TEsquema>
 
     /**
      * Busca varios documentos a la vez
      * @param query - La query de lo que estas buscando, si no se pone se daran todos los docs de toda la tabla
      * @param limite - El limite de documentos que quieres obtener, si no se pone nada te dara todos los docs con esa query
      */
-    public buscar(query?: Partial<TEsquema>, limite?: number): Documento<TEsquema>[]
+    public buscar(query?: Partial<TEsquema>, limite?: number): DocumentoType<TEsquema>[]
 
     /**
      * Elimar un documento por su _id
