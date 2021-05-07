@@ -15,6 +15,10 @@
 	],
 	"author": "Vyrek",
 	"license": "Apache-2.0",
+	"repository": {
+		"type": "github",
+		"url": "https://github.com/VyrekXD/UwUDB"
+	},
 	"devDependencies": {
 		"eslint": "^7.25.0"
 	},
