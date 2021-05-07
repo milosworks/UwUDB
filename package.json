@@ -1,6 +1,6 @@
 {
-	"name": "omegadb",
-	"version": "0.0.1",
+	"name": "uwudb",
+	"version": "1.0.0",
 	"description": "Un modulo que te ayudara a dejar esas db que usan JSON y entrar en el uso de SQL",
 	"main": "lib/index.js",
 	"scripts": {
@@ -9,7 +9,7 @@
 	},
 	"keywords": [
 		"db",
-		"omegaDB",
+		"uwuDB",
 		"vyrek",
 		"sql"
 	],
