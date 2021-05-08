@@ -7,28 +7,24 @@ UwUDB cuenta con errores dinamicos para saber donde fue donde te equivocaste, es
 
 ## CAMBIOS
 ```
-    .- Se agregaron typings al modulo y capacidad de autocompletado al insertar y buscar documentos
-    .- Se termino todo el README con cada propiedad definida
-    .- Se remueven ciertos exports del modulo
-    .- Se agregan otros errores al cliente
+    .- Se agregaron cosas al README y tambien se arreglo
 ```
 
 Puedes ver los cambios de todas las versiones en el [CHANGELOG](./CHANGELOG.md)
 
 # Contenido
-- [Cambios](#CAM)
-- [ToDo](#TOD)
-- [Instalacion](#INS)
-- [Uso](#USO)
-- [Constructores](#CON)
-  - [Esquema](#ESQ)
-  - [uwuCliente](#UCL)
-  - [DB](#UDB)
-  - [Documento](#DOC)
-- [Metodos](#FUN)
-  - [validarID](#VAL)
-
-<a name="TOD"></a>
+- [Cambios](#cambios)
+- [ToDo](#todo)
+- [Instalacion](#instalacion)
+- [Uso](#uso)
+- [Soporte](#soporte)
+- [Constructores](#class-esquema)
+  - [Esquema](#class-esquema)
+  - [uwuCliente](#class-uwucliente)
+  - [DB](#class-db)
+  - [Documento](#class-documento)
+- [Metodos](#function-validarID)
+  - [validarID](#function-validarID)
 
 # ToDo
 
@@ -37,15 +33,11 @@ Puedes ver los cambios de todas las versiones en el [CHANGELOG](./CHANGELOG.md)
     .- Terminar todos los metodos en Documento y DB
 ```
 
-<a name="INS"></a>
-
 # Instalacion
 
 ```
 npm i uwudb --s
 ```
-
-<a name="INS"></a>
 
 # Uso
 ```js
@@ -53,25 +45,22 @@ npm i uwudb --s
 const uwudb = require('uwudb')
 
 //TypeScript/ES6 Modulos
-import uwudb from 'uwudb'
+import { uwuCliente, Esquema } from 'uwudb'
 ```
-
-<a name="CON"></a>
-<a name="ESQ"></a>
 
 # class *Esquema*
 
 - [new Database()](#new-esquemaobj)
-- [Propiedades](#ESQ-PRO)
+- [Propiedades](#propiedades)
 
 ### new Esquema({*obj*})
 
 Esta clase recibe un objeto al crearse, el objeto sera el esquema que tendra la db, 
 las propiedades que pongas aqui seran las que estaran en la db
 
-Vease los tipos, *[aqui](#ESQ-TYP)*
+Vease los tipos, *[aqui](#tipos-de-variables-en-esquemas)*
 
-- `obj.<Propiedad>.type`: Incluye el tipo de la propiedad, tambien puedes usar \<Propiedad\>: *[Tipo](#ESQ-TYP)*
+- `obj.<Propiedad>.type`: Incluye el tipo de la propiedad, tambien puedes usar \<Propiedad\>: *[Tipo](#tipos-de-variables-en-esquemas)*
 
 - `obj.<Propiedad>.required`: Una variable booleana, si se pasa como true se necesitara incluir esa propiedad al insertar algo a la db (default: `false`)
 
@@ -91,8 +80,6 @@ const personasEsquema = new Esquema({
 })
 ```
 
-<a name="ESQ-PRO"></a>
-
 ## Propiedades
 
 **.rawModel -> _object_** - El objeto ingresado
@@ -107,13 +94,11 @@ const personasEsquema = new Esquema({
 
 
 
-<a name="UCL"></a>
-
 # class *uwuCliente*
 
 - [new uwuCliente](#new-uwuclienteopcionescliente)
-- [uwuCliente#crearDB](#UCL-CDB) (ver [`DB`](#UDB) y [`Esquema`](#ESQ))
-- [Propiedades](#UCL-PRO)
+- [uwuCliente#crearDB](#creardbnombre-esquema---db) (ver [`DB`](#class-db) y [`Esquema`](#ESQ))
+- [Propiedades](#propiedades-1)
 
 ### new uwuCliente({*OpcionesCliente*})
 
@@ -134,38 +119,31 @@ const uwudb = require('uwudb')
 const client = new uwudb.uwuCliente({dir: './database', nombre: 'data', WAL: false, verbose: console.log})
 ```
 
-<a name="UCL-CDB"></a>
+### .crearDB(*nombre*, *esquema*) -> *DB*
 
-### .crearDB(*nombre*, *esquema*) -> [*DB*](#UDB)
-
-Crea una nueva db con el esquema y nombre recibidos, devuelve una nueva clase [DB](#UDB)
+Crea una nueva db con el esquema y nombre recibidos, devuelve una nueva clase [DB](#class-db)
 
 ```js
 const personas = client.crearDB('personas', personasEsquema)
 ```
 
-<a name="UCL-PRO"></a>
-
-### Propiedades
+## Propiedades
 
 **.OpcionesCliente -> OpcionesCliente** - Las opciones ingresadas al instanciar la clase
 
-**.Databases -> [DB](#UDB)[]** - Todas las DBs creadas
+**.Databases -> [DB](#class-db)[]** - Todas las DBs creadas
 
 **.db -> [Database](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/api.md#class-database)** - La base _cruda_ de better-sqlite3
 
 
-
-<a name="UDB"></a>
-
 # class *DB*
 
 - [new DB()](#new-dbnombre-esquema-client)
-- [DB#establecer()](#UDB-SET)
-- [DB#buscarUno()](#UDB-UNO) (ver [Documento](#DOC))
-- [DB#buscar()](#UDB-BUS) (ver [Documento](#DOC))
-- [DB#eliminarPorId()](#UDB-EPI)
-- [Propiedades](#UDB-PRO)
+- [DB#establecer()](#establecerobj---bettersqlite3runresult) (ver [BetterSqlite3.RunResult](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/api.md#runbindparameters---object))
+- [DB#buscarUno()](#buscarunoquery---documento) (ver [Documento](#DOC))
+- [DB#buscar()](#buscarquery-limite---documento) (ver [Documento](#DOC))
+- [DB#eliminarPorId()](#eliminarporid_id---bettersqlite3runresult) (ver [BetterSqlite3.RunResult](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/api.md#runbindparameters---object))
+- [Propiedades](#propiedades-2)
 
 ### new DB(*nombre*, *esquema*, *client*)
 
@@ -179,9 +157,8 @@ Crea una DB nueva, recomiendo **mucho** no usar esta clase, usen **[uwuCliente#c
 
 - `client`: Una clase instanciada de **[uwuClient](#UCL)**
 
-<a name="UDB-SET"></a>
 
-### .establecer({*obj*}) -> *[BetterSqlite3.RunResult](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/api.md#runbindparameters---object)*
+### .establecer({*obj*}) -> *BetterSqlite3.RunResult*
 
 Establece un objeto en la database, *obj* debe incluir las propiedades de el esquema *(no todas)*, si pusiste en el esquema una propiedad como requerida y no la pones saltara un error, si pusiste un valor por default y pones su valor en el objeto se sobreescribira el valor default a ese que pusiste en *obj*
 
@@ -193,9 +170,7 @@ const resultadp = personas.establecer({nombre: 'Pedro', edad: 16})
 }
 ```
 
-<a name="UDB-UNO"></a>
-
-### .buscarUno({*obj*}) -> *[Documento](#DOC)*
+### .buscarUno({*query*}) -> *Documento*
 
 Busca un documento en la db con las propiedades que se hayan ingresado en *obj*
 
@@ -214,9 +189,7 @@ Documento {
 */
 ```
 
-<a name="UDB-BUS"></a>
-
-### .buscar({*obj*?}, *limite?*) -> *[Documento](#DOC)[]*
+### .buscar({*query*?}, *limite?*) -> *Documento[]*
 
 Busca varios documentos que se encuentren con la query si no se pone la query se mostraran todos los documentos en esa tabla _(puede causar problemas a grandes escalas)_, el limite es opcional, si no se pone se mostraran todos los docs con esa query
 
@@ -245,9 +218,7 @@ console.log(resultado)
 */
 ```
 
-<a name="UDB-EPI"></a>
-
-### .eliminarPorId(*_id*) -> *[BetterSqlite3.RunResult](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/api.md#runbindparameters---object)*
+### .eliminarPorId(*_id*) -> *BetterSqlite3.RunResult*
 
 Elimina documentos por la _id asignada por uwudb
 
@@ -270,39 +241,30 @@ console.log(resultado)
 */
 ```
 
-<a name="UDB-PRO"></a>
-
 ## Propiedades
 
 **.Esquema -> _[new Esquema](#ESQ)_** - El esquema de la db
 
 **.nombre -> _string_** - El nombre de la db
 
-<a name="DOC"></a>
-
 # class *Documento*
 
-- [new Documento()](#new-databasepath-options)
-- [Documento#eliminar()](#DOC-DEL)
+- [new Documento()](#new-documentodata-db)
+- [Documento#eliminar()](#eliminar---bettersqlite3runresult) (ver [BetterSqlite3.RunResult](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/api.md#runbindparameters---object))
 
 ### new Documento(*data*, *db*)
 
 Crea un nuevo documento para responder con el en una busqueda, recomiendo **no** instanciar esta clase para otras cosas, esta clase es solo para cosas internas al devolver una query
 
-<a name="DOC-DEL"></a>
+### .eliminar() -> *BetterSqlite3.RunResult*
 
-### .eliminar() -> *[BetterSqlite3.RunResult](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/api.md#runbindparameters---object)*
-
-Elimina el documento actual, misma documentacion que *[Database#eliminarPorId](#UDB-EPI)*
+Elimina el documento actual, misma documentacion que *[Database#eliminarPorId](#class-db-EPI)*
 
 ```js
 const resultado = personas.buscarUno({nombre: 'Juana'})
 
 console.log(resultado.eliminar())
 ```
-
-<a name="FUN"></a>
-<a name="VAL"></a>
 
 # function validarID
 
@@ -318,8 +280,10 @@ console.log(uwudb.Utils.validarID('uwu')) // false
 console.log(uwudb.Utils.validarID('8sjñXag0F27zY1d1u0c6')) // false
 ```
 
-<a name="ESQ-TYP"></a>
-
 ## Tipos de Variables en Esquemas
 
 Los tipos validos en el esquema son: *`string`*, *`number`*, *`boolean`*
+
+## Soporte
+
+Si quieren que se agrege una nueva funcionalidad o reportar un error mandenme un MD en discord: Vyrek#7545
