@@ -3,11 +3,10 @@ Una DB facil de usar para todos, facil de usar y no se corrompe!
 
 UwUDB cuenta con errores dinamicos para saber donde fue donde te equivocaste, esquemas para tener un estricto uso de lo que le puedes meter a la db y todo esta en español!
 
-<a name="CAM"></a>
-
 ## CAMBIOS
 ```
     .- Se agregaron cosas al README y tambien se arreglo
+    .- Se especifico como usar arrays y se creo una funcion que te ayuda a convertirlos a arrays
 ```
 
 Puedes ver los cambios de todas las versiones en el [CHANGELOG](./CHANGELOG.md)
@@ -16,7 +15,7 @@ Puedes ver los cambios de todas las versiones en el [CHANGELOG](./CHANGELOG.md)
 - [Cambios](#cambios)
 - [ToDo](#todo)
 - [Instalacion](#instalacion)
-- [Uso](#uso)
+- [Uso y Soporte](#uso)
 - [Soporte](#soporte)
 - [Constructores](#class-esquema)
   - [Esquema](#class-esquema)
@@ -29,7 +28,6 @@ Puedes ver los cambios de todas las versiones en el [CHANGELOG](./CHANGELOG.md)
 # ToDo
 
 ```
-    .- Agregar la capacidad de usar arrays en la DB
     .- Terminar todos los metodos en Documento y DB
 ```
 
@@ -48,9 +46,34 @@ const uwudb = require('uwudb')
 import { uwuCliente, Esquema } from 'uwudb'
 ```
 
+## Como puedo usar arrays?
+SQL no soporta arrays por default por lo tanto uwudb tampoco
+
+```js
+const { Utils} = require('uwudb')
+//Aqui tendriamos nuestro array
+const miarray = ['Jajaja, Hola']
+//Creamos nuestro esquema y ponemos array como string
+const miesquema = new Esquema({
+    array: 'string',
+    nombre: 'string'
+})
+//Creamos nuestra db
+const db = cliente.crearDB('arrays', miesquema)
+//Establecemos el array como string
+db.establecer({array: miarray.toString(), nombre: 'ArraysEnUwUDB'})
+//Para obtenerlo usariamos
+const resultado = db.buscarUno({nombre: 'ArraysEnUwUDB'})
+
+console.log(Utils.formatArray(resultado.array))
+// ["Jajaja, Hola"]
+console.log(resultado.array)
+// "['Jajaja, Hola']"
+```
+
 # class *Esquema*
 
-- [new Database()](#new-esquemaobj)
+- [new Esquema()](#new-esquemaobj)
 - [Propiedades](#propiedades)
 
 ### new Esquema({*obj*})
@@ -96,7 +119,7 @@ const personasEsquema = new Esquema({
 
 # class *uwuCliente*
 
-- [new uwuCliente](#new-uwuclienteopcionescliente)
+- [new uwuCliente()](#new-uwuclienteopcionescliente)
 - [uwuCliente#crearDB](#creardbnombre-esquema---db) (ver [`DB`](#class-db) y [`Esquema`](#ESQ))
 - [Propiedades](#propiedades-1)
 
