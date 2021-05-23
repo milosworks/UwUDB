@@ -1,4 +1,9 @@
-import Sqlite from "better-sqlite3"
+import Sqlite from 'better-sqlite3'
+
+declare interface ResultadoOperacion {
+    ok: boolean
+    cambios: number
+}
 
 declare interface OpcionesCliente {
     dir: string
@@ -7,12 +12,19 @@ declare interface OpcionesCliente {
     verbose?: any
 }
 
-declare type DocumentoType<T extends {}> = T & Documento<T>
+type DocumentoType<T extends {}> = T & Documento<T>
 
 declare class Documento<TEsquema> {
     constructor(data: object, db: uwuDB<TEsquema>)
 
-    eliminar(): Sqlite.RunResult
+    /**
+     * Elimina el documento actual
+     */
+    eliminar(): ResultadoOperacion
+    /**
+     * Guarda los cambios en el objeto del documento
+     */
+    guardar(): DocumentoType<TEsquema>
 }
 
 declare class Esquema {
@@ -41,7 +53,7 @@ declare class uwuDB<TEsquema> {
      * Establece un nuevo objeto dentro de la db
      * @param obj - El objeto a insertar en la db
      */
-    public establecer(obj: Partial<TEsquema>): Sqlite.RunResult
+    public establecer(obj: Partial<TEsquema>): DocumentoType<TEsquema>
 
     /**
      * Busca un doc con la query propuesta
@@ -57,10 +69,17 @@ declare class uwuDB<TEsquema> {
     public buscar(query?: Partial<TEsquema>, limite?: number): DocumentoType<TEsquema>[]
 
     /**
+     * Actualiza **un** documento
+     * @param query - El filtro para encontrar el documento a actulizar
+     * @param obj - Los nuevos datos de el documento
+     */
+    public actualizarUno(query, obj): DocumentoType<TEsquema>
+
+    /**
      * Elimar un documento por su _id
      * @param _id La ID de un documento
      */
-    public eliminarPorId(_id: string): Sqlite.RunResult
+    public eliminarPorId(_id: string): ResultadoOperacion
 }
 
 declare class uwuCliente {
@@ -74,7 +93,11 @@ declare class uwuCliente {
      * Todas las dbs creadas en un array
      */
     public Databases: uwuDB<any>[]
-    private db: Sqlite.Database
+
+    /**
+     * La DB de sqlite para que hagan request especificos
+     */
+    public db: Sqlite.Database
 
     /**
      * Crea al cliente de uwudb, en el que puedes crear una db
@@ -89,3 +112,15 @@ declare class uwuCliente {
      */
     public crearDB<TEsquema>(nombre: string, esquema: Esquema): uwuDB<TEsquema>
 }
+
+/**
+ * Valida una _id, el valor unico para identificar documentos de uwudb
+ * @param _id - La _id para validar
+ */
+declare function validarID(_id: string): boolean
+
+/**
+ * Formatea un array en string para convertirlo a un array
+ * @param array - El array dentro de una string
+ */
+declare function formatArray(array: string): any[]

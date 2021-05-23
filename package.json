@@ -1,6 +1,6 @@
 {
 	"name": "uwudb",
-	"version": "1.1.3",
+	"version": "1.2.0",
 	"description": "Un modulo que te ayudara a dejar esas db que usan JSON y entrar en el uso de SQL",
 	"main": "lib/index.js",
 	"scripts": {

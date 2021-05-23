@@ -24,6 +24,8 @@ Puedes ver los cambios de todas las versiones en el [CHANGELOG](./CHANGELOG.md)
   - [Documento](#class-documento)
 - [Metodos](#function-validarID)
   - [validarID](#function-validarID)
+  - [formatArray](#function-formatArray)
+- [Typings](./docs/TYPES.md)
 
 # ToDo
 
@@ -83,7 +85,7 @@ las propiedades que pongas aqui seran las que estaran en la db
 
 Vease los tipos, *[aqui](#tipos-de-variables-en-esquemas)*
 
-- `obj.<Propiedad>.type`: Incluye el tipo de la propiedad, tambien puedes usar \<Propiedad\>: *[Tipo](#tipos-de-variables-en-esquemas)*
+- `obj.<Propiedad>.type`: Incluye el tipo de la propiedad, tambien puedes usar *\<Propiedad\>*: *[Tipo](#tipos-de-variables-en-esquemas)*
 
 - `obj.<Propiedad>.required`: Una variable booleana, si se pasa como true se necesitara incluir esa propiedad al insertar algo a la db (default: `false`)
 
@@ -165,6 +167,7 @@ const personas = client.crearDB('personas', personasEsquema)
 - [DB#establecer()](#establecerobj---bettersqlite3runresult) (ver [BetterSqlite3.RunResult](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/api.md#runbindparameters---object))
 - [DB#buscarUno()](#buscarunoquery---documento) (ver [Documento](#DOC))
 - [DB#buscar()](#buscarquery-limite---documento) (ver [Documento](#DOC))
+- [DB#actualizarUno()](#actualizarunoquery-nuevosdatos---documento) (ver [Documento](#DOC))
 - [DB#eliminarPorId()](#eliminarporid_id---bettersqlite3runresult) (ver [BetterSqlite3.RunResult](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/api.md#runbindparameters---object))
 - [Propiedades](#propiedades-2)
 
@@ -214,7 +217,7 @@ Documento {
 
 ### .buscar({*query*?}, *limite?*) -> *Documento[]*
 
-Busca varios documentos que se encuentren con la query si no se pone la query se mostraran todos los documentos en esa tabla _(puede causar problemas a grandes escalas)_, el limite es opcional, si no se pone se mostraran todos los docs con esa query
+Busca varios documentos que se encuentren con la query si no se pone la query se mostraran todos los documentos en esa tabla, el limite es opcional, si no se pone se mostraran todos los docs con esa query
 
 ```js
 personas.establecer({nombre: 'Juana', edad: 18})
@@ -238,6 +241,25 @@ console.log(resultado)
         edad: 18
     }
 ]
+*/
+```
+
+### .actualizarUno({*query*}, {*nuevosDatos*}) -> *Documento*
+
+Actualiza un documento, primero buscandolo y poniendo los nuevos datos a actualizar
+
+```js
+personas.establecer({nombre: 'Juana', edad: 18})
+
+const cambios = personas.actualizarUno({nombre: 'Juana'}, {edad: 19})
+
+console.log(cambios)
+
+/*
+Documento {
+    nombre: 'Juana',
+    edad: 19
+}
 */
 ```
 
@@ -274,6 +296,7 @@ console.log(resultado)
 
 - [new Documento()](#new-documentodata-db)
 - [Documento#eliminar()](#eliminar---bettersqlite3runresult) (ver [BetterSqlite3.RunResult](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/api.md#runbindparameters---object))
+- [Documento#guardar()](#guardar---documento)
 
 ### new Documento(*data*, *db*)
 
@@ -289,6 +312,18 @@ const resultado = personas.buscarUno({nombre: 'Juana'})
 console.log(resultado.eliminar())
 ```
 
+### .guardar() -> *Documento*
+
+Guarda los cambios de el documento actual
+
+```js
+const resultado = personas.buscarUno({nombre: 'Juana'})
+
+resultado.nombre = 'Juan'
+
+console.log(resultado.guardar())
+```
+
 # function validarID
 
 ### validarID(*_id*) -> *boolean*
@@ -301,6 +336,18 @@ console.log(uwudb.Utils.validarID('f2j3Kmag0F27JH1d100c6')) // true
 console.log(uwudb.Utils.validarID('uwu')) // false
 
 console.log(uwudb.Utils.validarID('8sjñXag0F27zY1d1u0c6')) // false
+```
+
+# function formatArray
+
+### formatArray(*array*) -> *any[]*
+Formatea un array dentro de un string a un array real
+
+```js
+const miarray = "['MiElemento']"
+const miarrayreal = formatArray(miarray)
+
+console.log(miarrayreal) // ["MiElemento"]
 ```
 
 ## Tipos de Variables en Esquemas

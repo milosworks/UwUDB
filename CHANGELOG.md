@@ -1,3 +1,7 @@
+# **1.2.0**
+Se agrego la capacidad de actualizar un documento
+Se agrego el metodo de guardar un documento
+
 # **1.1.3**
 Se agregaron cosas al README y tambien se arreglo
 Se especifico como usar arrays y se creo una funcion que te ayuda a convertirlos a arrays
