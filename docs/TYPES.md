@@ -14,8 +14,8 @@ Estos son los docs de los tipos que se exportan por el modulo
 ### *ResultadoOperacion.ok* -> _boolean_
 Esta propiedad demuestra si la operacion ha salido sin errores
 
-### *ResultadoOperacion.cambios* -> _number_
-La cantidad de cambios en el documento, manegado por SQLite
+### *ResultadoOperacion.documentos* -> _number_
+La cantidad de documentos cambiados
 
 # Opciones Cliente
 - [OpcionesCliente.dir](#OpcionesClientedir---string)

@@ -2,7 +2,7 @@ import Sqlite from 'better-sqlite3'
 
 declare interface ResultadoOperacion {
     ok: boolean
-    cambios: number
+    documentos: number
 }
 
 declare interface OpcionesCliente {
@@ -15,6 +15,11 @@ declare interface OpcionesCliente {
 type DocumentoType<T extends {}> = T & Documento<T>
 
 declare class Documento<TEsquema> {
+    /**
+     * La id del documento, normalmente es una sring
+     */
+    public _id: TEsquema._id | string
+
     constructor(data: object, db: uwuDB<TEsquema>)
 
     /**
@@ -38,7 +43,14 @@ declare class Esquema {
 }
 
 declare class uwuDB<TEsquema> {
+    /**
+     * El esquema de la db
+     */
     public Esquema: Esquema
+
+    /**
+     * El nombre de la db
+     */
     public nombre: string
 
     /**
@@ -56,30 +68,42 @@ declare class uwuDB<TEsquema> {
     public establecer(obj: Partial<TEsquema>): DocumentoType<TEsquema>
 
     /**
-     * Busca un doc con la query propuesta
-     * @param query - Busca un doc con las propiedades puestas aqui
+     * Busca un doc con la busqueda propuesta
+     * @param Busqueda - Busca un doc con las propiedades puestas aqui
      */
-    public buscarUno(query: Partial<TEsquema>): DocumentoType<TEsquema>
+    public buscarUno(Busqueda: Partial<TEsquema>): DocumentoType<TEsquema>
 
     /**
      * Busca varios documentos a la vez
-     * @param query - La query de lo que estas buscando, si no se pone se daran todos los docs de toda la tabla
-     * @param limite - El limite de documentos que quieres obtener, si no se pone nada te dara todos los docs con esa query
+     * @param Busqueda - La busqueda de lo que estas buscando, si no se pone se daran todos los docs de toda la tabla
+     * @param limite - El limite de documentos que quieres obtener, si no se pone nada te dara todos los docs con esa busqueda
      */
-    public buscar(query?: Partial<TEsquema>, limite?: number): DocumentoType<TEsquema>[]
+    public buscar(Busqueda?: Partial<TEsquema>, limite?: number): DocumentoType<TEsquema>[]
 
     /**
      * Actualiza **un** documento
-     * @param query - El filtro para encontrar el documento a actulizar
+     * @param Busqueda - El filtro para encontrar el documento a actulizar
      * @param obj - Los nuevos datos de el documento
      */
-    public actualizarUno(query, obj): DocumentoType<TEsquema>
+    public actualizarUno(Busqueda: Partial<TEsquema>, obj: Partial<TEsquema>): DocumentoType<TEsquema>
+
+    /**
+     * Elimina un documento
+     * @param Filtro - El filtro para encontrar el documento
+     */
+    public eliminarUno(Filtro: Partial<TEsquema>): ResultadoOperacion
+
+    /**
+     * Elimina varios documentos con el mismo filtro
+     * @param Filtro - El filtro para eliminar varios documentos, dejalo vacio para eliminar todos los documentos de esta DB
+     */
+    public eliminarVarios(Filtro: Partial<TEsquema>): ResultadoOperacion
 
     /**
      * Elimar un documento por su _id
      * @param _id La ID de un documento
      */
-    public eliminarPorId(_id: string): ResultadoOperacion
+    public eliminarPorId(_id: any): Promise<ResultadoOperacion>
 }
 
 declare class uwuCliente {

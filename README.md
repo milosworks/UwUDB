@@ -5,8 +5,9 @@ UwUDB cuenta con errores dinamicos para saber donde fue donde te equivocaste, es
 
 ## CAMBIOS
 ```
-    .- Se agregaron cosas al README y tambien se arreglo
-    .- Se especifico como usar arrays y se creo una funcion que te ayuda a convertirlos a arrays
+    .- Se mejoro el README
+    .- Se agrego actualizarUno, actualizarVarios, eliminarUno y eliminarVarios a la clase DB
+    .- Se mejoro la documentacion
 ```
 
 Puedes ver los cambios de todas las versiones en el [CHANGELOG](./CHANGELOG.md)
@@ -164,11 +165,13 @@ const personas = client.crearDB('personas', personasEsquema)
 # class *DB*
 
 - [new DB()](#new-dbnombre-esquema-client)
-- [DB#establecer()](#establecerobj---bettersqlite3runresult) (ver [BetterSqlite3.RunResult](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/api.md#runbindparameters---object))
-- [DB#buscarUno()](#buscarunoquery---documento) (ver [Documento](#DOC))
-- [DB#buscar()](#buscarquery-limite---documento) (ver [Documento](#DOC))
-- [DB#actualizarUno()](#actualizarunoquery-nuevosdatos---documento) (ver [Documento](#DOC))
-- [DB#eliminarPorId()](#eliminarporid_id---bettersqlite3runresult) (ver [BetterSqlite3.RunResult](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/api.md#runbindparameters---object))
+- [DB#establecer()](#establecerobj---resultadooperacion) (ver [ResultadoOperacion](./docs/TYPES.md))
+- [DB#buscarUno()](#buscarunoBusqueda---documento) (ver [Documento](#DOC))
+- [DB#buscar()](#buscarBusqueda-limite---documento) (ver [Documento](#DOC))
+- [DB#actualizarUno()](#actualizarunoBusqueda-nuevosdatos---documento) (ver [Documento](#DOC))
+- [DB#eliminarUno()](#eliminarunobusqueda---resultadooperacion) (ver [ResultadoOperacion](./docs/TYPES.md))
+- [DB#eliminarVarios()](#eliminarvariosbusqueda---resultadooperacion) (ver [ResultadoOperacion](./docs/TYPES.md))
+- [DB#eliminarPorId()](#eliminarporid_id---resultadooperacion) (ver [ResultadoOperacion](./docs/TYPES.md))
 - [Propiedades](#propiedades-2)
 
 ### new DB(*nombre*, *esquema*, *client*)
@@ -184,7 +187,7 @@ Crea una DB nueva, recomiendo **mucho** no usar esta clase, usen **[uwuCliente#c
 - `client`: Una clase instanciada de **[uwuClient](#UCL)**
 
 
-### .establecer({*obj*}) -> *BetterSqlite3.RunResult*
+### .establecer({*obj*}) -> *ResultadoOperacion*
 
 Establece un objeto en la database, *obj* debe incluir las propiedades de el esquema *(no todas)*, si pusiste en el esquema una propiedad como requerida y no la pones saltara un error, si pusiste un valor por default y pones su valor en el objeto se sobreescribira el valor default a ese que pusiste en *obj*
 
@@ -196,7 +199,7 @@ const resultadp = personas.establecer({nombre: 'Pedro', edad: 16})
 }
 ```
 
-### .buscarUno({*query*}) -> *Documento*
+### .buscarUno({*Busqueda*}) -> *Documento*
 
 Busca un documento en la db con las propiedades que se hayan ingresado en *obj*
 
@@ -215,9 +218,9 @@ Documento {
 */
 ```
 
-### .buscar({*query*?}, *limite?*) -> *Documento[]*
+### .buscar({*Busqueda*?}, *limite?*) -> *Documento[]*
 
-Busca varios documentos que se encuentren con la query si no se pone la query se mostraran todos los documentos en esa tabla, el limite es opcional, si no se pone se mostraran todos los docs con esa query
+Busca varios documentos que se encuentren con la Busqueda si no se pone la Busqueda se mostraran todos los documentos en esa tabla, el limite es opcional, si no se pone se mostraran todos los docs con esa Busqueda
 
 ```js
 personas.establecer({nombre: 'Juana', edad: 18})
@@ -244,7 +247,7 @@ console.log(resultado)
 */
 ```
 
-### .actualizarUno({*query*}, {*nuevosDatos*}) -> *Documento*
+### .actualizarUno({*Busqueda*}, {*nuevosDatos*}) -> *Documento*
 
 Actualiza un documento, primero buscandolo y poniendo los nuevos datos a actualizar
 
@@ -263,7 +266,40 @@ Documento {
 */
 ```
 
-### .eliminarPorId(*_id*) -> *BetterSqlite3.RunResult*
+### .eliminarUno({*Busqueda*}) -> *ResultadoOperacion*
+
+Elimina un documento que cumpla con la busqueda
+
+```js
+personas.establecer({nombre: 'Juana', edad: 18})
+
+const eliminar = personas.eliminarVarios({edad: 18})
+
+console.log(eliminar)
+
+/*
+{ ok: true, documentos: 1 }
+*/
+```
+
+### .eliminarVarios({*Busqueda*}) -> *ResultadoOperacion*
+
+Elimina varios documentos que cumplan con la busqueda
+
+```js
+personas.establecer({nombre: 'Juana', edad: 18})
+personas.establecer({nombre: 'Juan', edad: 18})
+
+const eliminar = personas.eliminarVarios({edad: 18})
+
+console.log(eliminar)
+
+/*
+{ ok: true, documentos: 2 }
+*/
+```
+
+### .eliminarPorId(*_id*) -> *ResultadoOperacion*
 
 Elimina documentos por la _id asignada por uwudb
 
@@ -295,14 +331,14 @@ console.log(resultado)
 # class *Documento*
 
 - [new Documento()](#new-documentodata-db)
-- [Documento#eliminar()](#eliminar---bettersqlite3runresult) (ver [BetterSqlite3.RunResult](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/api.md#runbindparameters---object))
+- [Documento#eliminar()](#eliminar---resultadooperacion) (ver [ResultadoOperacion](./docs/TYPES.md))
 - [Documento#guardar()](#guardar---documento)
 
 ### new Documento(*data*, *db*)
 
-Crea un nuevo documento para responder con el en una busqueda, recomiendo **no** instanciar esta clase para otras cosas, esta clase es solo para cosas internas al devolver una query
+Crea un nuevo documento para responder con el en una busqueda, recomiendo **no** instanciar esta clase para otras cosas, esta clase es solo para cosas internas al devolver una Busqueda
 
-### .eliminar() -> *BetterSqlite3.RunResult*
+### .eliminar() -> *ResultadoOperacion*
 
 Elimina el documento actual, misma documentacion que *[Database#eliminarPorId](#class-db-EPI)*
 

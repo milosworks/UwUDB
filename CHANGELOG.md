@@ -1,3 +1,8 @@
+# **1.3.0**
+Se mejoro el README
+Se agrego actualizarUno, actualizarVarios, eliminarUno y eliminarVarios a la clase DB
+Se mejoro la documentacion
+
 # **1.2.0**
 Se agrego la capacidad de actualizar un documento
 Se agrego el metodo de guardar un documento
