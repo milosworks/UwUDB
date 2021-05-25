@@ -1,5 +1,5 @@
 # UwUDB
-Una DB fácil de usar para todos que se corrompe!
+Una DB fácil de usar para todos que no se corrompe!
 
 UwUDB cuenta con errores dinamicos para saber donde fue donde te equivocaste, esquemas para tener un estricto uso de lo que le puedes meter a la db y todo esta en español!
 
