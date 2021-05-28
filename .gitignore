@@ -1,3 +1,6 @@
 # NPM
 package-lock.json
 node_modules
+
+# Editor
+.vscode

@@ -1,6 +1,6 @@
 import Sqlite from 'better-sqlite3'
 
-declare interface ResultadoOperacion {
+declare interface ResultadoOperación {
     ok: boolean
     documentos: number
 }
@@ -16,7 +16,7 @@ type DocumentoType<T extends {}> = T & Documento<T>
 
 declare class Documento<TEsquema> {
     /**
-     * La id del documento, normalmente es una sring
+     * La id del documento, normalmente es una string
      */
     public _id: TEsquema._id | string
 
@@ -25,7 +25,7 @@ declare class Documento<TEsquema> {
     /**
      * Elimina el documento actual
      */
-    eliminar(): ResultadoOperacion
+    eliminar(): ResultadoOperación
     /**
      * Guarda los cambios en el objeto del documento
      */
@@ -68,42 +68,42 @@ declare class uwuDB<TEsquema> {
     public establecer(obj: Partial<TEsquema>): DocumentoType<TEsquema>
 
     /**
-     * Busca un doc con la busqueda propuesta
-     * @param Busqueda - Busca un doc con las propiedades puestas aqui
+     * Busca un doc con la Búsqueda propuesta
+     * @param Búsqueda - Busca un doc con las propiedades puestas aquí
      */
-    public buscarUno(Busqueda: Partial<TEsquema>): DocumentoType<TEsquema>
+    public buscarUno(Búsqueda: Partial<TEsquema>): DocumentoType<TEsquema>
 
     /**
      * Busca varios documentos a la vez
-     * @param Busqueda - La busqueda de lo que estas buscando, si no se pone se daran todos los docs de toda la tabla
-     * @param limite - El limite de documentos que quieres obtener, si no se pone nada te dara todos los docs con esa busqueda
+     * @param Búsqueda - La Búsqueda de lo que estas buscando, si no se pone se darán todos los docs de toda la tabla
+     * @param limite - El limite de documentos que quieres obtener, si no se pone nada te dará todos los docs con esa Búsqueda
      */
-    public buscar(Busqueda?: Partial<TEsquema>, limite?: number): DocumentoType<TEsquema>[]
+    public buscar(Búsqueda?: Partial<TEsquema>, limite?: number): DocumentoType<TEsquema>[]
 
     /**
      * Actualiza **un** documento
-     * @param Busqueda - El filtro para encontrar el documento a actulizar
+     * @param Búsqueda - El filtro para encontrar el documento a actualizar
      * @param obj - Los nuevos datos de el documento
      */
-    public actualizarUno(Busqueda: Partial<TEsquema>, obj: Partial<TEsquema>): DocumentoType<TEsquema>
+    public actualizarUno(Búsqueda: Partial<TEsquema>, obj: Partial<TEsquema>): DocumentoType<TEsquema>
 
     /**
      * Elimina un documento
      * @param Filtro - El filtro para encontrar el documento
      */
-    public eliminarUno(Filtro: Partial<TEsquema>): ResultadoOperacion
+    public eliminarUno(Filtro: Partial<TEsquema>): ResultadoOperación
 
     /**
      * Elimina varios documentos con el mismo filtro
-     * @param Filtro - El filtro para eliminar varios documentos, dejalo vacio para eliminar todos los documentos de esta DB
+     * @param Filtro - El filtro para eliminar varios documentos, dejalo vació para eliminar todos los documentos de esta DB
      */
-    public eliminarVarios(Filtro: Partial<TEsquema>): ResultadoOperacion
+    public eliminarVarios(Filtro: Partial<TEsquema>): ResultadoOperación
 
     /**
-     * Elimar un documento por su _id
+     * Eliminar un documento por su _id
      * @param _id La ID de un documento
      */
-    public eliminarPorId(_id: any): Promise<ResultadoOperacion>
+    public eliminarPorId(_id: any): Promise<ResultadoOperación>
 }
 
 declare class uwuCliente {
@@ -119,7 +119,7 @@ declare class uwuCliente {
     public Databases: uwuDB<any>[]
 
     /**
-     * La DB de sqlite para que hagan request especificos
+     * La DB de sqlite para que hagan request específicos
      */
     public db: Sqlite.Database
 
@@ -135,10 +135,16 @@ declare class uwuCliente {
      * @param esquema - El esquema de la db
      */
     public crearDB<TEsquema>(nombre: string, esquema: Esquema): uwuDB<TEsquema>
+
+    /**
+     * Elimina una DB (Tabla) de uwudb
+     * @param nombre - El nombre de la base de datos a borrar
+     */
+    public eliminarDB(nombre: string): boolean
 }
 
 /**
- * Valida una _id, el valor unico para identificar documentos de uwudb
+ * Valida una _id, el valor único para identificar documentos de uwudb
  * @param _id - La _id para validar
  */
 declare function validarID(_id: string): boolean

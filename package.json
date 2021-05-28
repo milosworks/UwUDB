@@ -5,7 +5,7 @@
 	"main": "lib/index.js",
 	"scripts": {
 		"build": "tsc",
-		"test": "node test/index2.js"
+		"test": "node test/index.js"
 	},
 	"keywords": [
 		"db",

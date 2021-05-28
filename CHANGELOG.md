@@ -1,3 +1,7 @@
+# **1.3.1**
+Se mejoro el README
+Se agrego eliminarDB en uwuCliente
+
 # **1.3.0**
 Se mejoro el README
 Se agrego actualizarUno, actualizarVarios, eliminarUno y eliminarVarios a la clase DB
